@@ -1,13 +1,18 @@
 {
-  "name": "gatekeeper-backend",
+  "name": "vip-tool",
   "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "vercel-build": "npm install"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "firebase-admin": "^11.11.0"
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "firebase-admin": "^14.1.0"
   }
 }
