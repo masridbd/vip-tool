@@ -2,13 +2,20 @@ const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 
-// Load Service Account from Environment Variables
-const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://vip-tool-b85d9-default-rtdb.firebaseio.com'
-});
+// ==================== FIREBASE INIT ====================
+try {
+  // Prevent multiple initializations in Vercel serverless environments
+  if (!admin.apps.length) {
+    const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+    
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: 'https://vip-tool-b85d9-default-rtdb.firebaseio.com'
+    });
+  }
+} catch (error) {
+  console.error("Firebase Initialization Error. Check FIREBASE_CREDENTIALS in Vercel:", error.message);
+}
 
 const db = admin.database();
 const app = express();
@@ -171,7 +178,6 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: Date.now() });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Gatekeeper backend running on port ${PORT}`));
-
-
+// ==================== SERVER EXPORT ====================
+// Required for Vercel serverless deployment
+module.exports = app;
